@@ -1,0 +1,65 @@
+body {
+  background: rgb(150, 157, 167);
+  margin: 0
+}
+
+.navbar {
+  height: 8vh;
+  background: rgba(104, 164, 219, 0.81);
+  display: flex;
+  flex-direction: row;
+  color: white;
+  padding: 10px;
+  align-items: center;
+  top: 0;
+  right: 0;
+  left: 0;
+  justify-content: flex-end;
+}
+
+.navbar h2 {
+  padding: 0 20px 0 20px;
+  font-family: Futura,Trebuchet MS,Arial,sans-serif;
+  font-size: 26px;
+  font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+  line-height: 20px;
+}
+
+#campus-container {
+  padding: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.campus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 70vh;
+  height: 70vh;
+  margin: 20px;
+  background: rgba(185, 202, 109, 0.756);
+  color: white;
+  border-radius: 20px;
+}
+
+.campus Link h3 {
+  font-family: Futura,Trebuchet MS,Arial,sans-serif;
+  font-size: 24px;
+  font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+  line-height: 20px;
+  align-self: center;
+}
+
+.campus img {
+  height: 50vh;
+  width: 50vh;
+  border-radius: 20px;
+  align-self: center;
+}
