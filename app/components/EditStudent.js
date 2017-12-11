@@ -8,7 +8,7 @@ const mapStateToProps = state => {
   return { campuses: state.campuses }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: (evt) => {
       evt.preventDefault()
@@ -21,12 +21,12 @@ const mapDispatchToProps = (dispatch) => {
 
       let id = +evt.target.id
 
-      let campusId = evt.target.campusId.value ? evt.target.campusId.value : evt.target.campusId.defaultValue
+      let campus = evt.target.campus.value ? evt.target.campus.value : evt.target.campus.defaultValue
 
       const student = {
-        firstName, lastName, email, id, campusId
+        firstName, lastName, email, id, campus
       }
-      const updateThunk = updateStudentThunkCreator(student)
+      const updateThunk = updateStudentThunkCreator(student, ownProps.history)
       dispatch(updateThunk)
     }
   }
@@ -64,7 +64,6 @@ class EditStudent extends Component {
       const student = this.state.student
       const campuses = this.props.campuses
       const studentCampusName = student.campus ? student.campus.name : 'No campus assigned currently'
-      const studentCampusId = student.campus ? student.campus.id : null
 
       return (
         <form onSubmit={ this.props.handleSubmit } id={ student.id }>
@@ -102,19 +101,21 @@ class EditStudent extends Component {
           </div>
 
           <div>
-            <label> Campus: </label>
-            <select
-            name="campus"
-            defaultValue={ studentCampusId }
-            placeholder={ studentCampusName }
-            >
-                {
-                  campuses.map(campus => (
-                    <option value={campus.id } key={ campus.id }>{ campus.name }</option>
-                  ))
-                }
-            </select>
-            <span> REMINDER: ADD UPDATING CAMPUS FEATURE </span>
+            <label> Current Campus: { studentCampusName } </label>
+            <div>
+                <label> Update Campus: </label>
+                <select
+                name="campus"
+                >
+                    {
+                      campuses.map(campus => (
+                        <option
+                        value={ campus.name }
+                        key={ campus.id }>{ campus.name }</option>
+                      ))
+                    }
+                </select>
+            </div>
           </div>
 
           <div>

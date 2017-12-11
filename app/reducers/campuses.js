@@ -57,6 +57,7 @@ export function fetchCampuses() {
         const action = getCampuses(campuses)
         dispatch(action)
       })
+      .catch(err => console.error(err))
   }
 }
 
@@ -71,23 +72,27 @@ export function deleteCampusThunk (campusId) {
   }
 }
 
-export function addCampus (campus) {
+export function addCampus (campus, history) {
   return function thunk (dispatch) {
     return axios.post('/api/campuses', campus)
+      .then(campus => campus.data)
       .then(campus => {
         const action = createCampus(campus)
         dispatch(action)
+        history.push(`/campuses/${campus.id}`)
       })
       .catch(err => console.error(err))
   }
 }
 
-export function updateCampusThunkCreator (campus) {
+export function updateCampusThunkCreator (campus, history) {
   return function thunk (dispatch) {
     return axios.put(`/api/campuses/${campus.id}`, campus)
+      .then(campus => campus.data)
       .then(campus => {
         const action = updateCampus(campus)
         dispatch(action)
+        history.push(`/campuses/${campus.id}`)
       })
       .catch(err => console.error(err))
   }

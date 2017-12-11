@@ -35,7 +35,8 @@ function Students (props) {
                 <span>{ student.id } - { student.firstName } - </span>
               </Link>
               <Link to={`/campuses/${student.campusId}`}>
-                <span>{ student.campus.name }</span>
+                { student.campus ?
+                <span>{ student.campus.name }</span> : 'NO CAMPUS' }
               </Link>
               <button value={ student.id } onClick={ props.handleDeleteClick }> X </button>
             </li>

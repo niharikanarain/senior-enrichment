@@ -11,7 +11,7 @@ module.exports = router
 router.get('/', (req, res, next) => [
   Campus.findAll()
   .then(campuses => res.json(campuses))
-  .catch(next)
+  .catch(err => console.error(err))
 ])
 
 router.param('campusId', function (req, res, next, id) {
@@ -34,7 +34,7 @@ router.param('campusId', function (req, res, next, id) {
     next();
     return null; // silences bluebird warning about promises inside of next
   })
-  .catch(next);
+  .catch(err => console.error(err))
 });
 
 router.get('/:campusId', (req, res) => {
@@ -42,13 +42,15 @@ router.get('/:campusId', (req, res) => {
 })
 
 router.post('/', (req, res, next) => {
-  Campus.create(req.body)
+  Campus.findOrCreate({
+    where: req.body
+  })
+    .spread(campus => campus)
     .then((campus) => {
       res.json(campus)
     })
     .catch(err => console.error(err))
 
-// NEED TO ADDRESS: WHAT IF THE campus ALREADY EXISTS - use campus.findorcreate?
 })
 
 router.put('/:campusId', (req, res, next) => {
@@ -56,14 +58,15 @@ router.put('/:campusId', (req, res, next) => {
   Campus.findById(id)
     .then(campus => {
       campus.update(req.body)
+      return campus
     })
-    .then(() => res.status(200).send('campus updated'))
-    .catch(next)
+    .then((campus) => res.json(campus))
+    .catch(err => console.error(err))
 })
 
 router.delete('/:campusId', (req, res, next) => {
   const id = +req.params.campusId
   Campus.destroy({ where: { id } })
     .then(() => res.sendStatus(204))
-    .catch(next)
+    .catch(err => console.error(err))
 })

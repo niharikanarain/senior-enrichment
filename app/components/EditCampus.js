@@ -9,14 +9,15 @@ const mapStateToProps = state => {
   return { students: state.students }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addNewStudentToCampus: (evt) => {
-
+    addNewStudentToCampus: (student) => {
+      const updateThunk = updateStudentThunkCreator(student)
+      return dispatch(updateThunk)
     },
     handleDeleteFromCampus: (student) => {
       const updateThunk = updateStudentThunkCreator(student)
-      dispatch(updateThunk)
+      return dispatch(updateThunk)
     },
     handleSubmit: (evt) => {
       evt.preventDefault()
@@ -30,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       const campus = {
         name, description, id
       }
-      const updateThunk = updateCampusThunkCreator(campus)
+      const updateThunk = updateCampusThunkCreator(campus, ownProps.history)
       dispatch(updateThunk)
     }
   }
@@ -46,17 +47,29 @@ class EditCampus extends Component {
     }
     this.getCampus = this.getCampus.bind(this)
     this.updateDeletedStudent = this.updateDeletedStudent.bind(this)
+    this.updateAddedStudent = this.updateAddedStudent.bind(this)
   }
 
   updateDeletedStudent (evt) {
     const deleteStudent = { id: evt.target.value, campusId: null }
-    let newStudentArray = this.state.students.filter(student => {
-      return +student.id !== +deleteStudent.id
-    })
-    this.setState({
-      students: newStudentArray
-    })
     this.props.handleDeleteFromCampus(deleteStudent)
+      .then(() => {
+        const campusId = this.props.match.params.campusId
+        this.getCampus(campusId)
+      })
+      .catch(err => console.error(err))
+  }
+
+  updateAddedStudent () {
+    const selectedStudent = document.getElementById('newStudent')
+    const addStudent = { id: +selectedStudent.value, campus: this.state.campus.name }
+    console.log('ADD STUDENT: ', addStudent)
+    this.props.addNewStudentToCampus(addStudent)
+      .then(() => {
+        const campusId = this.props.match.params.campusId
+        this.getCampus(campusId)
+      })
+      .catch(err => console.error(err))
   }
 
   getCampus(campusId) {
@@ -126,15 +139,14 @@ class EditCampus extends Component {
         </ul>
 
         <h4>Add a student</h4>
-        <select name="newStudent">
+        <select name="newStudent" id="newStudent">
           {
             students.map(student =>
-              <option key={ student.id }>{ student.name }</option>
+              <option value={ student.id } key={ student.id }>{ student.name }</option>
             )
           }
         </select>
-        <button onClick={ this.props.addNewStudentToCampus }> + </button>
-
+        <button onClick={ this.updateAddedStudent }> + </button>
 
         <div>
           <button type="submit"> Submit </button>

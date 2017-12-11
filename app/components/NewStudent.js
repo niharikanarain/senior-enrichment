@@ -2,25 +2,33 @@ import React from 'react';
 import { addStudent } from '../reducers'
 import { connect } from 'react-redux'
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
+  return { campuses: state.campuses }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: (evt) => {
       evt.preventDefault()
       const student = {
         firstName: evt.target.studentFirstName.value,
         lastName: evt.target.studentLastName.value,
-        campus: evt.target.studentCampus.value
+        campus: evt.target.studentCampus.value,
+        email: evt.target.studentEmail.value
       }
-      const addThunk = addStudent(student)
+      const addThunk = addStudent(student, ownProps.history)
       dispatch(addThunk)
     }
   }
 }
 
-const NewStudentContainer = connect(null, mapDispatchToProps)(NewStudent)
+const NewStudentContainer = connect(mapStateToProps, mapDispatchToProps)(NewStudent)
 
 
 function NewStudent (props) {
+
+  const campuses = props.campuses
+
   return (
     <form onSubmit={ props.handleSubmit }>
       <label> Add Student </label>
@@ -41,9 +49,17 @@ function NewStudent (props) {
       <div>
         <input
         type="text"
-        name="studentCampus"
-        placeholder="Enter student's campus"
+        name="studentEmail"
+        placeholder="Enter student's email"
         />
+      </div>
+      <div>
+        <select name="studentCampus">
+          {
+            campuses.map(campus =>
+            <option key={ campus.id} value={ campus.name}>{ campus.name }</option>)
+          }
+        </select>
       </div>
         <button type="submit">Submit</button>
   </form>

@@ -12,6 +12,9 @@ const Navbar = () => {
         <NavLink to="/students">
           <h2>Students</h2>
         </NavLink>
+        <NavLink to="/campuses">
+          <h2>Campuses</h2>
+        </NavLink>
       </div>
   )
 }

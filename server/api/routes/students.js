@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => [
     }]
   })
   .then(students => res.json(students))
-  .catch(next)
+  .catch(err => console.error(err))
 ])
 
 router.param('studentId', function (req, res, next, id) {
@@ -38,7 +38,7 @@ router.param('studentId', function (req, res, next, id) {
     next();
     return null; // silences bluebird warning about promises inside of next
   })
-  .catch(next);
+  .catch(err => console.error(err))
 });
 
 router.get('/:studentId', (req, res) => {
@@ -46,7 +46,14 @@ router.get('/:studentId', (req, res) => {
 })
 
 router.post('/', (req, res, next) => {
-  Student.create(req.body)
+  Student.findOrCreate({
+    where: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email
+    }
+  })
+    .spread(student => student)
     .then((student) => {
       Campus.findOne({
         where: {
@@ -60,7 +67,6 @@ router.post('/', (req, res, next) => {
     })
     .catch(err => console.error(err))
 
-// NEED TO ADDRESS: WHAT IF THE STUDENT ALREADY EXISTS - use student.findorcreate?
 })
 
 router.put('/:studentId', (req, res, next) => {
@@ -68,22 +74,23 @@ router.put('/:studentId', (req, res, next) => {
   Student.findById(id)
     .then(student => {
       student.update(req.body)
-      Campus.findOne({
+      return Campus.findOne({
         where: {
           name: req.body.campus
         }
       })
-      .then(campus => {
-        student.setCampus(campus)
-      })
+        .then(campus => {
+          student.setCampus(campus)
+          return student
+        })
     })
-    .then(() => res.status(200).send('student updated'))
-    .catch(next)
+    .then((student) => res.json(student))
+    .catch(err => console.error(err))
 })
 
 router.delete('/:studentId', (req, res, next) => {
   const id = req.params.studentId
   Student.destroy({ where: { id } })
     .then(() => res.sendStatus(204))
-    .catch(next)
+    .catch(err => console.error(err))
 })

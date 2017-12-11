@@ -59,6 +59,7 @@ export function fetchStudents() {
         const action = getStudents(students)
         dispatch(action)
       })
+      .catch(err => console.error(err))
   }
 }
 
@@ -69,25 +70,31 @@ export function deleteStudentThunk (studentId) {
         const action = deleteStudent(studentId)
         dispatch(action)
       })
+      .catch(err => console.error(err))
   }
 }
 
-export function addStudent (student) {
+export function addStudent (student, history) {
   return function thunk (dispatch) {
     return axios.post('/api/students', student)
+      .then(student => student.data)
       .then(student => {
         const action = createStudent(student)
         dispatch(action)
+        history.push(`/students/${student.id}`)
       })
+      .catch(err => console.error(err))
   }
 }
 
-export function updateStudentThunkCreator (student) {
+export function updateStudentThunkCreator (student, history) {
   return function thunk (dispatch) {
     return axios.put(`/api/students/${student.id}`, student)
+      .then(student => student.data)
       .then(student => {
         const action = updateStudent(student)
         dispatch(action)
+        history.push(`/students/${student.id}`)
       })
       .catch(err => console.error(err))
   }

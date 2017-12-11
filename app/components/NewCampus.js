@@ -2,7 +2,7 @@ import React from 'react';
 import { addCampus } from '../reducers'
 import { connect } from 'react-redux'
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: (evt) => {
       evt.preventDefault()
@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch) => {
         name: evt.target.name.value,
         imageURL: evt.target.imageURL.value
       }
-      const addThunk = addCampus(campus)
+      const addThunk = addCampus(campus, ownProps.history)
       dispatch(addThunk)
     }
   }
