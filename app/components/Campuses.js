@@ -26,7 +26,7 @@ function Campuses(props) {
   return (
     <div>
       <div>
-        <Link to="/new-campus">
+        <Link to="/new-campus" id="addCampus">
           <button> Add campus </button>
         </Link>
       </div>
@@ -52,3 +52,13 @@ function Campuses(props) {
 }
 
 export default CampusesContainer
+
+// .campus Link h3 {
+//   font-family: Futura,Trebuchet MS,Arial,sans-serif;
+//   font-size: 24px;
+//   font-style: normal;
+// 	font-variant: normal;
+// 	font-weight: 500;
+//   line-height: 20px;
+//   align-self: center;
+// }

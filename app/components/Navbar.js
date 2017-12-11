@@ -9,10 +9,10 @@ const Navbar = () => {
         <NavLink to="/">
           <h2>Home</h2>
         </NavLink>
-        <NavLink to="/students">
+        <NavLink to="/students" activeStyle={{ color: 'red' }}>
           <h2>Students</h2>
         </NavLink>
-        <NavLink to="/campuses">
+        <NavLink to="/campuses" activeStyle={{ color: 'red' }}>
           <h2>Campuses</h2>
         </NavLink>
       </div>

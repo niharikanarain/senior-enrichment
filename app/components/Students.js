@@ -38,7 +38,7 @@ function Students (props) {
                 { student.campus ?
                 <span>{ student.campus.name }</span> : 'NO CAMPUS' }
               </Link>
-              <button value={ student.id } onClick={ props.handleDeleteClick }> X </button>
+              <button className="deleteButton" value={ student.id } onClick={ props.handleDeleteClick }> X </button>
             </li>
           ))
         }

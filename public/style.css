@@ -1,14 +1,14 @@
 body {
-  background: rgb(150, 157, 167);
+  background: rgb(209, 212, 216);
   margin: 0
 }
 
 .navbar {
   height: 8vh;
-  background: rgba(104, 164, 219, 0.81);
+  background: white;
   display: flex;
   flex-direction: row;
-  color: white;
+  color: darkblue
   padding: 10px;
   align-items: center;
   top: 0;
@@ -42,12 +42,29 @@ body {
   width: 70vh;
   height: 70vh;
   margin: 20px;
-  background: rgba(185, 202, 109, 0.756);
-  color: white;
+  background: rgba(140, 180, 214, 0.81);
   border-radius: 20px;
 }
 
-.campus Link h3 {
+#addCampus {
+  background: rgb(26, 23, 23);
+  color: white;
+  width: 30vh;
+  font-size: 15px;
+  border-radius: 10px;
+  margin: 0 97vh 0 97vh;
+}
+
+.campus button {
+  background: rgb(26, 23, 23);
+  color: white;
+  width: 30vh;
+  font-size: 15px;
+  border-radius: 10px;
+  margin: 0 20vh 0 20vh;
+}
+
+.campus Link {
   font-family: Futura,Trebuchet MS,Arial,sans-serif;
   font-size: 24px;
   font-style: normal;
@@ -57,9 +74,18 @@ body {
   align-self: center;
 }
 
+
 .campus img {
   height: 50vh;
   width: 50vh;
   border-radius: 20px;
   align-self: center;
+}
+
+.deleteButton {
+  border-radius: 30px;
+  background: darkred;
+  color: white;
+  height: 4vh;
+  width: 4vh;
 }

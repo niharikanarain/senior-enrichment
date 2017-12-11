@@ -132,6 +132,7 @@ class EditCampus extends Component {
                   </Link>
                   <button
                   value={ student.id }
+                  className="deleteButton"
                   onClick={ this.updateDeletedStudent }> X </button>
                 </div>
               )) : null
